@@ -1,0 +1,79 @@
+{
+    "models": [
+        {
+            "classname": "Spaceport",
+            "code": "class Spaceport(Base):\n    \"\"\"\n    description: Represents a spaceport where vehicles can land or takeoff.\n    \"\"\"\n    __tablename__ = 'spaceport'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, unique=True, nullable=False)\n    location = Column(String, nullable=False)\n    capacity = Column(Integer, nullable=False)",
+            "description": "Represents a spaceport where vehicles can land or takeoff.",
+            "name": "Spaceport"
+        },
+        {
+            "classname": "LaunchPad",
+            "code": "class LaunchPad(Base):\n    \"\"\"\n    description: Represents a launch pad at a spaceport.\n    \"\"\"\n    __tablename__ = 'launch_pad'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    spaceport_id = Column(Integer, ForeignKey('spaceport.id'), nullable=False)",
+            "description": "Represents a launch pad at a spaceport.",
+            "name": "LaunchPad"
+        },
+        {
+            "classname": "Vehicle",
+            "code": "class Vehicle(Base):\n    \"\"\"\n    description: Represents a space vehicle, such as a rocket or shuttle.\n    \"\"\"\n    __tablename__ = 'vehicle'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, unique=True, nullable=False)\n    type = Column(String, nullable=False)\n    manufacture_date = Column(Date, nullable=False)\n    spaceport_id = Column(Integer, ForeignKey('spaceport.id'))",
+            "description": "Represents a space vehicle, such as a rocket or shuttle.",
+            "name": "Vehicle"
+        },
+        {
+            "classname": "CrewMember",
+            "code": "class CrewMember(Base):\n    \"\"\"\n    description: Represents a crew member assigned to a vehicle.\n    \"\"\"\n    __tablename__ = 'crew_member'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    role = Column(String, nullable=False)\n    vehicle_id = Column(Integer, ForeignKey('vehicle.id'))",
+            "description": "Represents a crew member assigned to a vehicle.",
+            "name": "CrewMember"
+        },
+        {
+            "classname": "Mission",
+            "code": "class Mission(Base):\n    \"\"\"\n    description: Represents a mission that a vehicle can be assigned to.\n    \"\"\"\n    __tablename__ = 'mission'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    launch_date = Column(Date, nullable=False)\n    vehicle_id = Column(Integer, ForeignKey('vehicle.id'))",
+            "description": "Represents a mission that a vehicle can be assigned to.",
+            "name": "Mission"
+        },
+        {
+            "classname": "Payload",
+            "code": "class Payload(Base):\n    \"\"\"\n    description: Represents the payload for a mission.\n    \"\"\"\n    __tablename__ = 'payload'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    description = Column(String, nullable=False)\n    weight = Column(Integer, nullable=False)\n    mission_id = Column(Integer, ForeignKey('mission.id'))",
+            "description": "Represents the payload for a mission.",
+            "name": "Payload"
+        },
+        {
+            "classname": "Resource",
+            "code": "class Resource(Base):\n    \"\"\"\n    description: Represents a resource available at a spaceport.\n    \"\"\"\n    __tablename__ = 'resource'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    quantity = Column(Integer, nullable=False)\n    spaceport_id = Column(Integer, ForeignKey('spaceport.id'))",
+            "description": "Represents a resource available at a spaceport.",
+            "name": "Resource"
+        },
+        {
+            "classname": "Construction",
+            "code": "class Construction(Base):\n    \"\"\"\n    description: Represents construction projects at a spaceport.\n    \"\"\"\n    __tablename__ = 'construction'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    start_date = Column(Date, nullable=False)\n    end_date = Column(Date)\n    spaceport_id = Column(Integer, ForeignKey('spaceport.id'))",
+            "description": "Represents construction projects at a spaceport.",
+            "name": "Construction"
+        },
+        {
+            "classname": "Inspection",
+            "code": "class Inspection(Base):\n    \"\"\"\n    description: Represents an inspection event at a spaceport.\n    \"\"\"\n    __tablename__ = 'inspection'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    inspector = Column(String, nullable=False)\n    date = Column(Date, nullable=False)\n    comments = Column(String)\n    spaceport_id = Column(Integer, ForeignKey('spaceport.id'))",
+            "description": "Represents an inspection event at a spaceport.",
+            "name": "Inspection"
+        },
+        {
+            "classname": "LaunchSchedule",
+            "code": "class LaunchSchedule(Base):\n    \"\"\"\n    description: Represents a launch schedule for a vehicle.\n    \"\"\"\n    __tablename__ = 'launch_schedule'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    launch_time = Column(DateTime, nullable=False)\n    launch_pad_id = Column(Integer, ForeignKey('launch_pad.id'))\n    vehicle_id = Column(Integer, ForeignKey('vehicle.id'))",
+            "description": "Represents a launch schedule for a vehicle.",
+            "name": "LaunchSchedule"
+        },
+        {
+            "classname": "Maintenance",
+            "code": "class Maintenance(Base):\n    \"\"\"\n    description: Represents scheduled maintenance tasks for vehicles.\n    \"\"\"\n    __tablename__ = 'maintenance'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    task = Column(String, nullable=False)\n    schedule_date = Column(Date, nullable=False)\n    vehicle_id = Column(Integer, ForeignKey('vehicle.id'))",
+            "description": "Represents scheduled maintenance tasks for vehicles.",
+            "name": "Maintenance"
+        },
+        {
+            "classname": "Fuel",
+            "code": "class Fuel(Base):\n    \"\"\"\n    description: Represents fuel records for vehicles at the spaceport.\n    \"\"\"\n    __tablename__ = 'fuel'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    fuel_type = Column(String, nullable=False)\n    amount = Column(Integer, nullable=False)\n    date_recorded = Column(Date, nullable=False)\n    vehicle_id = Column(Integer, ForeignKey('vehicle.id'))",
+            "description": "Represents fuel records for vehicles at the spaceport.",
+            "name": "Fuel"
+        }
+    ],
+    "rules": [],
+    "test_data": "# Test data for Spaceport\\nspaceport1 = Spaceport(name='Alpha', location='Earth Orbit', capacity=10)\\nspaceport2 = Spaceport(name='Beta', location='Mars Base', capacity=8)\\nspaceport3 = Spaceport(name='Gamma', location='Lunar Base', capacity=5)\\nspaceport4 = Spaceport(name='Delta', location='Asteroid Station', capacity=12)\\n\\n# Test data for LaunchPad\\nlaunch_pad1 = LaunchPad(name='Pad 1', spaceport_id=1)\\nlaunch_pad2 = LaunchPad(name='Pad 2', spaceport_id=2)\\nlaunch_pad3 = LaunchPad(name='Pad 3', spaceport_id=3)\\nlaunch_pad4 = LaunchPad(name='Pad 4', spaceport_id=4)\\n\\n# Test data for Vehicle\\nvehicle1 = Vehicle(name='Explorer I', type='Shuttle', manufacture_date=date(2020, 5, 20), spaceport_id=1)\\nvehicle2 = Vehicle(name='Discovery X', type='Rocket', manufacture_date=date(2019, 7, 15), spaceport_id=2)\\nvehicle3 = Vehicle(name='Voyager', type='Probe', manufacture_date=date(2021, 8, 14), spaceport_id=3)\\nvehicle4 = Vehicle(name='Pioneer', type='Shuttle', manufacture_date=date(2020, 11, 7), spaceport_id=4)\\n\\n# Test data for CrewMember\\ncrew_member1 = CrewMember(name='John Doe', role='Pilot', vehicle_id=1)\\ncrew_member2 = CrewMember(name='Jane Smith', role='Engineer', vehicle_id=2)\\ncrew_member3 = CrewMember(name='Mike Brown', role='Navigator', vehicle_id=3)\\ncrew_member4 = CrewMember(name='Emma Wilson', role='Scientist', vehicle_id=4)\\n\\n# Test data for Mission\\nmission1 = Mission(name='Lunar Mission', launch_date=date(2023, 1, 25), vehicle_id=1)\\nmission2 = Mission(name='Mars Probe', launch_date=date(2023, 5, 10), vehicle_id=2)\\nmission3 = Mission(name='Asteroid Exploration', launch_date=date(2023, 8, 3), vehicle_id=3)\\nmission4 = Mission(name='Deep Space', launch_date=date(2023, 10, 15), vehicle_id=4)\\n\\n# Test data for Payload\\npayload1 = Payload(description='Lunar Rover', weight=500, mission_id=1)\\npayload2 = Payload(description='Mars Samples', weight=300, mission_id=2)\\npayload3 = Payload(description='Asteroid Drill', weight=400, mission_id=3)\\npayload4 = Payload(description='Deep Space Kit', weight=600, mission_id=4)\\n\\n# Test data for Resource\\nresource1 = Resource(name='Oxygen', quantity=10000, spaceport_id=1)\\nresource2 = Resource(name='Fuel', quantity=5000, spaceport_id=2)\\nresource3 = Resource(name='Water', quantity=4000, spaceport_id=3)\\nresource4 = Resource(name='Food', quantity=7000, spaceport_id=4)\\n\\n# Test data for Construction\\nconstruction1 = Construction(name='Landing Strip Expansion', start_date=date(2022, 3, 15), end_date=date(2022, 7, 15), spaceport_id=1)\\nconstruction2 = Construction(name='Control Tower Upgrade', start_date=date(2022, 4, 1), end_date=date(2022, 9, 1), spaceport_id=2)\\nconstruction3 = Construction(name='New Fuel Tanks', start_date=date(2022, 5, 20), end_date=date(2022, 11, 30), spaceport_id=3)\\nconstruction4 = Construction(name='Research Lab Setup', start_date=date(2022, 7, 10), end_date=date(2023, 2, 28), spaceport_id=4)\\n\\n# Test data for Inspection\\ninspection1 = Inspection(inspector='Inspector Alpha', date=date(2023, 1, 10), comments='All systems operational', spaceport_id=1)\\ninspection2 = Inspection(inspector='Inspector Beta', date=date(2023, 2, 5), comments='Minor issues found', spaceport_id=2)\\ninspection3 = Inspection(inspector='Inspector Gamma', date=date(2023, 3, 12), comments='Need maintenance', spaceport_id=3)\\ninspection4 = Inspection(inspector='Inspector Delta', date=date(2023, 4, 20), comments='Ready for launch', spaceport_id=4)\\n\\n# Test data for LaunchSchedule\\nlaunch_schedule1 = LaunchSchedule(launch_time=datetime(2023, 1, 25, 14, 0), launch_pad_id=1, vehicle_id=1)\\nlaunch_schedule2 = LaunchSchedule(launch_time=datetime(2023, 5, 10, 9, 30), launch_pad_id=2, vehicle_id=2)\\nlaunch_schedule3 = LaunchSchedule(launch_time=datetime(2023, 8, 3, 21, 15), launch_pad_id=3, vehicle_id=3)\\nlaunch_schedule4 = LaunchSchedule(launch_time=datetime(2023, 10, 15, 5, 45), launch_pad_id=4, vehicle_id=4)\\n\\n# Test data for Maintenance\\nmaintenance1 = Maintenance(task='Engine Check', schedule_date=date(2023, 2, 1), vehicle_id=1)\\nmaintenance2 = Maintenance(task='Hull Inspection', schedule_date=date(2023, 3, 20), vehicle_id=2)\\nmaintenance3 = Maintenance(task='Navigation System Update', schedule_date=date(2023, 4, 15), vehicle_id=3)\\nmaintenance4 = Maintenance(task='Communication System Overhaul', schedule_date=date(2023, 6, 10), vehicle_id=4)\\n\\n# Test data for Fuel\\nfuel1 = Fuel(fuel_type='Hydrogen', amount=1000, date_recorded=date(2023, 1, 15), vehicle_id=1)\\nfuel2 = Fuel(fuel_type='RP-1', amount=2000, date_recorded=date(2023, 2, 10), vehicle_id=2)\\nfuel3 = Fuel(fuel_type='Methane', amount=1500, date_recorded=date(2023, 3, 20), vehicle_id=3)\\nfuel4 = Fuel(fuel_type='Liquid Oxygen', amount=3000, date_recorded=date(2023, 4, 5), vehicle_id=4)",
+    "name": "Spaceport_System"
+}

@@ -1,0 +1,44 @@
+<o-form-layout-manager attr="AstronautTraining" mode="tab" title="ASTRONAUTTRAINING">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="AstronautTrainingTable" 
+            service="AstronautTraining" 
+            entity="AstronautTraining" 
+            title="ASTRONAUTTRAINING"
+            keys="id"
+            columns="id;astronaut_id;session_date;location" 
+            header-actions="R;D"
+            visible-columns="id;astronaut_id;session_date;location"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="astronaut_id" title="astronaut_id">
+    <o-table-cell-renderer-service attr="astronaut_id" 
+        service="Astronaut" entity="AstronautType" columns="id;first_name"
+        parent-keys="id:astronaut_id"
+        value-column="first_name" keys="astronaut_id"
+        visible-columns="first_name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-date-input #session_date attr="session_date" type="date" label="session_date" enabled="yes" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+            
+            <o-table-column #location attr="location" title="location" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

@@ -1,0 +1,537 @@
+about:
+  date: November 24, 2024 16:12:53
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Astronaut:
+    columns:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: last_name
+      required: true
+      template: text
+      type: VARCHAR
+    - name: birth_date
+      required: true
+      type: DATE
+    - name: missions_count
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents an astronaut with personal information.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: first_name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents an astronaut with personal information.
+    label: Astronaut
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - astronaut_id
+      name: AstronautMissionList
+      resource: AstronautMission
+    - direction: tomany
+      fks:
+      - astronaut_id
+      name: AstronautSkillList
+      resource: AstronautSkill
+    - direction: tomany
+      fks:
+      - astronaut_id
+      name: AstronautTrainingList
+      resource: AstronautTraining
+    type: Astronaut
+  AstronautMission:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: astronaut_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: mission_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Junction table linking astronauts to missions.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Junction table linking astronauts to missions.
+    label: AstronautMission
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - astronaut_id
+      name: astronaut
+      resource: Astronaut
+    - direction: toone
+      fks:
+      - mission_id
+      name: mission
+      resource: Mission
+    type: AstronautMission
+  AstronautSkill:
+    columns:
+    - label: ' skill_name*'
+      name: skill_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: astronaut_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: level
+      required: true
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents skills possessed by astronauts.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: skill_name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents skills possessed by astronauts.
+    label: AstronautSkill
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - astronaut_id
+      name: astronaut
+      resource: Astronaut
+    type: AstronautSkill
+  AstronautTraining:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: astronaut_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: session_date
+      required: true
+      type: DATE
+    - name: location
+      required: true
+      template: text
+      type: VARCHAR
+    description: Represents training sessions attended by astronauts.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents training sessions attended by astronauts.
+    label: AstronautTraining
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - astronaut_id
+      name: astronaut
+      resource: Astronaut
+    type: AstronautTraining
+  Cargo:
+    columns:
+    - label: ' content_description*'
+      name: content_description
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: mission_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: weight
+      required: true
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents cargo carried by missions.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: content_description
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents cargo carried by missions.
+    label: Cargo
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - mission_id
+      name: mission
+      resource: Mission
+    type: Cargo
+  LaunchFacility:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: spaceport_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: capacity
+      required: true
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents facilities used by spaceports for launches.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents facilities used by spaceports for launches.
+    label: LaunchFacility
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - spaceport_id
+      name: spaceport
+      resource: Spaceport
+    type: LaunchFacility
+  Mission:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: spaceport_id
+      template: integer
+      type: INTEGER
+    - name: launch_date
+      required: true
+      type: DATE
+    - name: return_date
+      type: DATE
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents a space mission including its details.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents a space mission including its details.
+    label: Mission
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - mission_id
+      name: AstronautMissionList
+      resource: AstronautMission
+    - direction: tomany
+      fks:
+      - mission_id
+      name: CargoList
+      resource: Cargo
+    - direction: tomany
+      fks:
+      - mission_id
+      name: MissionOutcomeList
+      resource: MissionOutcome
+    - direction: tomany
+      fks:
+      - mission_id
+      name: MissionSpaceAgencyList
+      resource: MissionSpaceAgency
+    - direction: tomany
+      fks:
+      - current_mission_id
+      name: SpacecraftList
+      resource: Spacecraft
+    - direction: toone
+      fks:
+      - spaceport_id
+      name: spaceport
+      resource: Spaceport
+    type: Mission
+  MissionOutcome:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: mission_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: outcome
+      required: true
+      template: text
+      type: VARCHAR
+    - name: details
+      template: text
+      type: VARCHAR
+    description: Represents the outcomes of a mission.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents the outcomes of a mission.
+    label: MissionOutcome
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - mission_id
+      name: mission
+      resource: Mission
+    type: MissionOutcome
+  MissionSpaceAgency:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: mission_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: space_agency_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Junction table linking missions to space agencies.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Junction table linking missions to space agencies.
+    label: MissionSpaceAgency
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - mission_id
+      name: mission
+      resource: Mission
+    - direction: toone
+      fks:
+      - space_agency_id
+      name: space_agency
+      resource: SpaceAgency
+    type: MissionSpaceAgency
+  SpaceAgency:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: country
+      required: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents a space agency overseeing missions.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents a space agency overseeing missions.
+    label: SpaceAgency
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - space_agency_id
+      name: MissionSpaceAgencyList
+      resource: MissionSpaceAgency
+    type: SpaceAgency
+  Spacecraft:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: current_mission_id
+      template: integer
+      type: INTEGER
+    - name: model
+      required: true
+      template: text
+      type: VARCHAR
+    - name: crew_capacity
+      required: true
+      template: integer
+      type: INTEGER
+    description: Represents a spacecraft with its specifications.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents a spacecraft with its specifications.
+    label: Spacecraft
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - current_mission_id
+      name: current_mission
+      resource: Mission
+    type: Spacecraft
+  Spaceport:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: location
+      required: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents a spaceport with basic information.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents a spaceport with basic information.
+    label: Spaceport
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - spaceport_id
+      name: LaunchFacilityList
+      resource: LaunchFacility
+    - direction: tomany
+      fks:
+      - spaceport_id
+      name: MissionList
+      resource: Mission
+    type: Spaceport
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

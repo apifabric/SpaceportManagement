@@ -1,0 +1,49 @@
+<o-form-layout-manager attr="MissionSpaceAgency" mode="tab" title="MISSIONSPACEAGENCY">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="MissionSpaceAgencyTable" 
+            service="MissionSpaceAgency" 
+            entity="MissionSpaceAgency" 
+            title="MISSIONSPACEAGENCY"
+            keys="id"
+            columns="id;mission_id;space_agency_id" 
+            header-actions="R;D"
+            visible-columns="id;mission_id;space_agency_id"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="mission_id" title="mission_id">
+    <o-table-cell-renderer-service attr="mission_id" 
+        service="Mission" entity="MissionType" columns="id;name"
+        parent-keys="id:mission_id"
+        value-column="name" keys="mission_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="space_agency_id" title="space_agency_id">
+    <o-table-cell-renderer-service attr="space_agency_id" 
+        service="SpaceAgency" entity="SpaceAgencyType" columns="id;name"
+        parent-keys="id:space_agency_id"
+        value-column="name" keys="space_agency_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

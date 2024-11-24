@@ -1,0 +1,86 @@
+{
+    "models": [
+        {
+            "classname": "Spaceport",
+            "code": "from sqlalchemy import Column, Integer, String, Date, ForeignKey\nfrom sqlalchemy.ext.declarative import declarative_base\n\nBase = declarative_base()\n\nclass Spaceport(Base):\n    \"\"\"description: Represents a spaceport with basic information.\"\"\"\n    __tablename__ = 'spaceports'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    location = Column(String, nullable=False)",
+            "description": "Represents a spaceport with basic information.",
+            "name": "Spaceport"
+        },
+        {
+            "classname": "Astronaut",
+            "code": "class Astronaut(Base):\n    \"\"\"description: Represents an astronaut with personal information.\"\"\"\n    __tablename__ = 'astronauts'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    first_name = Column(String, nullable=False)\n    last_name = Column(String, nullable=False)\n    birth_date = Column(Date, nullable=False)\n    missions_count = Column(Integer)  # Derived attribute: count of missions",
+            "description": "Represents an astronaut with personal information.",
+            "name": "Astronaut"
+        },
+        {
+            "classname": "Mission",
+            "code": "class Mission(Base):\n    \"\"\"description: Represents a space mission including its details.\"\"\"\n    __tablename__ = 'missions'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    launch_date = Column(Date, nullable=False)\n    return_date = Column(Date)\n    spaceport_id = Column(Integer, ForeignKey('spaceports.id'))",
+            "description": "Represents a space mission including its details.",
+            "name": "Mission"
+        },
+        {
+            "classname": "Spacecraft",
+            "code": "class Spacecraft(Base):\n    \"\"\"description: Represents a spacecraft with its specifications.\"\"\"\n    __tablename__ = 'spacecraft'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    model = Column(String, nullable=False)\n    crew_capacity = Column(Integer, nullable=False)\n    current_mission_id = Column(Integer, ForeignKey('missions.id'))",
+            "description": "Represents a spacecraft with its specifications.",
+            "name": "Spacecraft"
+        },
+        {
+            "classname": "AstronautMission",
+            "code": "class AstronautMission(Base):\n    \"\"\"description: Junction table linking astronauts to missions.\"\"\"\n    __tablename__ = 'astronaut_missions'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    astronaut_id = Column(Integer, ForeignKey('astronauts.id'), nullable=False)\n    mission_id = Column(Integer, ForeignKey('missions.id'), nullable=False)",
+            "description": "Junction table linking astronauts to missions.",
+            "name": "AstronautMission"
+        },
+        {
+            "classname": "Cargo",
+            "code": "class Cargo(Base):\n    \"\"\"description: Represents cargo carried by missions.\"\"\"\n    __tablename__ = 'cargo'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    weight = Column(Integer, nullable=False)\n    content_description = Column(String, nullable=False)\n    mission_id = Column(Integer, ForeignKey('missions.id'), nullable=False)",
+            "description": "Represents cargo carried by missions.",
+            "name": "Cargo"
+        },
+        {
+            "classname": "SpaceAgency",
+            "code": "class SpaceAgency(Base):\n    \"\"\"description: Represents a space agency overseeing missions.\"\"\"\n    __tablename__ = 'space_agencies'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    country = Column(String, nullable=False)",
+            "description": "Represents a space agency overseeing missions.",
+            "name": "SpaceAgency"
+        },
+        {
+            "classname": "MissionSpaceAgency",
+            "code": "class MissionSpaceAgency(Base):\n    \"\"\"description: Junction table linking missions to space agencies.\"\"\"\n    __tablename__ = 'mission_space_agencies'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    mission_id = Column(Integer, ForeignKey('missions.id'), nullable=False)\n    space_agency_id = Column(Integer, ForeignKey('space_agencies.id'), nullable=False)",
+            "description": "Junction table linking missions to space agencies.",
+            "name": "MissionSpaceAgency"
+        },
+        {
+            "classname": "LaunchFacility",
+            "code": "class LaunchFacility(Base):\n    \"\"\"description: Represents facilities used by spaceports for launches.\"\"\"\n    __tablename__ = 'launch_facilities'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)\n    capacity = Column(Integer, nullable=False)\n    spaceport_id = Column(Integer, ForeignKey('spaceports.id'), nullable=False)",
+            "description": "Represents facilities used by spaceports for launches.",
+            "name": "LaunchFacility"
+        },
+        {
+            "classname": "AstronautTraining",
+            "code": "class AstronautTraining(Base):\n    \"\"\"description: Represents training sessions attended by astronauts.\"\"\"\n    __tablename__ = 'astronaut_training'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    session_date = Column(Date, nullable=False)\n    location = Column(String, nullable=False)\n    astronaut_id = Column(Integer, ForeignKey('astronauts.id'), nullable=False)",
+            "description": "Represents training sessions attended by astronauts.",
+            "name": "AstronautTraining"
+        },
+        {
+            "classname": "MissionOutcome",
+            "code": "class MissionOutcome(Base):\n    \"\"\"description: Represents the outcomes of a mission.\"\"\"\n    __tablename__ = 'mission_outcomes'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    mission_id = Column(Integer, ForeignKey('missions.id'), nullable=False)\n    outcome = Column(String, nullable=False)\n    details = Column(String)",
+            "description": "Represents the outcomes of a mission.",
+            "name": "MissionOutcome"
+        },
+        {
+            "classname": "AstronautSkill",
+            "code": "class AstronautSkill(Base):\n    \"\"\"description: Represents skills possessed by astronauts.\"\"\"\n    __tablename__ = 'astronaut_skills'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    skill_name = Column(String, nullable=False)\n    level = Column(Integer, nullable=False)\n    astronaut_id = Column(Integer, ForeignKey('astronauts.id'), nullable=False)",
+            "description": "Represents skills possessed by astronauts.",
+            "name": "AstronautSkill"
+        }
+    ],
+    "rules": [
+        {
+            "name": "AstronautMissionCount",
+            "description": "Derives the missions count for each astronaut from the AstronautMission junction table.",
+            "use_case": "Astronaut.missions_count = Count(AstronautMission)",
+            "code": "Rule.count(derive=Astronaut.missions_count, as_count_of=AstronautMission, where=None)"
+        }
+    ],
+    "test_data": "from datetime import date\n\n# Spaceports Test Data\nspaceport1 = Spaceport(name=\"Cape Canaveral\", location=\"USA\")\nspaceport2 = Spaceport(name=\"Baikonur\", location=\"Kazakhstan\")\nspaceport3 = Spaceport(name=\"Guiana\", location=\"France\")\nspaceport4 = Spaceport(name=\"Vandenberg\", location=\"USA\")\n\n# Astronauts Test Data\nastronaut1 = Astronaut(first_name=\"Neil\", last_name=\"Armstrong\", birth_date=date(1930, 8, 5), missions_count=0)\nastronaut2 = Astronaut(first_name=\"Buzz\", last_name=\"Aldrin\", birth_date=date(1930, 1, 20), missions_count=0)\nastronaut3 = Astronaut(first_name=\"Yuri\", last_name=\"Gagarin\", birth_date=date(1934, 3, 9), missions_count=0)\nastronaut4 = Astronaut(first_name=\"Valentina\", last_name=\"Tereshkova\", birth_date=date(1937, 3, 6), missions_count=0)\n\n# Missions Test Data\nmission1 = Mission(name=\"Apollo 11\", launch_date=date(1969, 7, 16), spaceport_id=1)\nmission2 = Mission(name=\"Vostok 1\", launch_date=date(1961, 4, 12), spaceport_id=2)\nmission3 = Mission(name=\"Soyuz 1\", launch_date=date(1967, 4, 23), spaceport_id=2)\nmission4 = Mission(name=\"STS-98\", launch_date=date(2001, 2, 7), spaceport_id=1)\n\n# Spacecraft Test Data\nspacecraft1 = Spacecraft(model=\"Saturn V\", crew_capacity=3, current_mission_id=1)\nspacecraft2 = Spacecraft(model=\"Vostok-K\", crew_capacity=1, current_mission_id=2)\nspacecraft3 = Spacecraft(model=\"Soyuz\", crew_capacity=2, current_mission_id=3)\nspacecraft4 = Spacecraft(model=\"Space Shuttle\", crew_capacity=7, current_mission_id=4)\n\n# AstronautMission Test Data\nastronaut_mission1 = AstronautMission(astronaut_id=1, mission_id=1)\nastronaut_mission2 = AstronautMission(astronaut_id=2, mission_id=1)\nastronaut_mission3 = AstronautMission(astronaut_id=3, mission_id=2)\nastronaut_mission4 = AstronautMission(astronaut_id=4, mission_id=3)\n\n# Cargo Test Data\ncargo1 = Cargo(weight=1000, content_description=\"Satellite\", mission_id=1)\ncargo2 = Cargo(weight=500, content_description=\"Supplies\", mission_id=2)\ncargo3 = Cargo(weight=200, content_description=\"Materials\", mission_id=3)\ncargo4 = Cargo(weight=1200, content_description=\"Fuel\", mission_id=4)\n\n# SpaceAgency Test Data\nagency1 = SpaceAgency(name=\"NASA\", country=\"USA\")\nagency2 = SpaceAgency(name=\"Roscosmos\", country=\"Russia\")\nagency3 = SpaceAgency(name=\"ESA\", country=\"Europe\")\nagency4 = SpaceAgency(name=\"CNSA\", country=\"China\")\n\n# MissionSpaceAgency Test Data\nmission_agency1 = MissionSpaceAgency(mission_id=1, space_agency_id=1)\nmission_agency2 = MissionSpaceAgency(mission_id=2, space_agency_id=2)\nmission_agency3 = MissionSpaceAgency(mission_id=3, space_agency_id=2)\nmission_agency4 = MissionSpaceAgency(mission_id=4, space_agency_id=1)\n\n# LaunchFacility Test Data\nfacility1 = LaunchFacility(name=\"Pad A\", capacity=5000, spaceport_id=1)\nfacility2 = LaunchFacility(name=\"Pad B\", capacity=3000, spaceport_id=2)\nfacility3 = LaunchFacility(name=\"Facility 1\", capacity=4000, spaceport_id=3)\nfacility4 = LaunchFacility(name=\"Facility 2\", capacity=2000, spaceport_id=4)\n\n# AstronautTraining Test Data\ntraining1 = AstronautTraining(session_date=date(1968, 8, 1), location=\"Houston\", astronaut_id=1)\ntraining2 = AstronautTraining(session_date=date(1960, 10, 5), location=\"Star City\", astronaut_id=2)\ntraining3 = AstronautTraining(session_date=date(1965, 5, 20), location=\"Moscow\", astronaut_id=3)\ntraining4 = AstronautTraining(session_date=date(1975, 7, 22), location=\"Baikonur\", astronaut_id=4)\n\n# MissionOutcome Test Data\noutcome1 = MissionOutcome(mission_id=1, outcome=\"Success\", details=\"First moon landing.\")\noutcome2 = MissionOutcome(mission_id=2, outcome=\"Success\", details=\"First human in space.\")\noutcome3 = MissionOutcome(mission_id=3, outcome=\"Failure\", details=\"Tragic re-entry.\")\noutcome4 = MissionOutcome(mission_id=4, outcome=\"Success\", details=\"ISS supply mission.\")\n\n# AstronautSkill Test Data\nskill1 = AstronautSkill(skill_name=\"Piloting\", level=5, astronaut_id=1)\nskill2 = AstronautSkill(skill_name=\"Engineering\", level=4, astronaut_id=2)\nskill3 = AstronautSkill(skill_name=\"Research\", level=3, astronaut_id=3)\nskill4 = AstronautSkill(skill_name=\"Communication\", level=4, astronaut_id=4)",
+    "name": "SpaceportManagement"
+}

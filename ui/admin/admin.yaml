@@ -1,0 +1,351 @@
+about:
+  date: November 24, 2024 16:12:53
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 11
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Astronaut:
+    attributes:
+    - label: ' first_name*'
+      name: first_name
+      required: true
+      search: true
+      sort: true
+    - name: last_name
+      required: true
+    - name: birth_date
+      required: true
+      type: DATE
+    - name: missions_count
+    - name: id
+    description: Represents an astronaut with personal information.
+    info_list: Represents an astronaut with personal information.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - astronaut_id
+      name: AstronautMissionList
+      resource: AstronautMission
+    - direction: tomany
+      fks:
+      - astronaut_id
+      name: AstronautSkillList
+      resource: AstronautSkill
+    - direction: tomany
+      fks:
+      - astronaut_id
+      name: AstronautTrainingList
+      resource: AstronautTraining
+    type: Astronaut
+    user_key: first_name
+  AstronautMission:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: astronaut_id
+      required: true
+    - name: mission_id
+      required: true
+    description: Junction table linking astronauts to missions.
+    info_list: Junction table linking astronauts to missions.
+    tab_groups:
+    - direction: toone
+      fks:
+      - astronaut_id
+      name: astronaut
+      resource: Astronaut
+    - direction: toone
+      fks:
+      - mission_id
+      name: mission
+      resource: Mission
+    type: AstronautMission
+    user_key: id
+  AstronautSkill:
+    attributes:
+    - label: ' skill_name*'
+      name: skill_name
+      required: true
+      search: true
+      sort: true
+    - name: astronaut_id
+      required: true
+    - name: level
+      required: true
+    - name: id
+    description: Represents skills possessed by astronauts.
+    info_list: Represents skills possessed by astronauts.
+    tab_groups:
+    - direction: toone
+      fks:
+      - astronaut_id
+      name: astronaut
+      resource: Astronaut
+    type: AstronautSkill
+    user_key: skill_name
+  AstronautTraining:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: astronaut_id
+      required: true
+    - name: session_date
+      required: true
+      type: DATE
+    - name: location
+      required: true
+    description: Represents training sessions attended by astronauts.
+    info_list: Represents training sessions attended by astronauts.
+    tab_groups:
+    - direction: toone
+      fks:
+      - astronaut_id
+      name: astronaut
+      resource: Astronaut
+    type: AstronautTraining
+    user_key: id
+  Cargo:
+    attributes:
+    - label: ' content_description*'
+      name: content_description
+      required: true
+      search: true
+      sort: true
+    - name: mission_id
+      required: true
+    - name: weight
+      required: true
+    - name: id
+    description: Represents cargo carried by missions.
+    info_list: Represents cargo carried by missions.
+    tab_groups:
+    - direction: toone
+      fks:
+      - mission_id
+      name: mission
+      resource: Mission
+    type: Cargo
+    user_key: content_description
+  LaunchFacility:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: spaceport_id
+      required: true
+    - name: capacity
+      required: true
+    - name: id
+    description: Represents facilities used by spaceports for launches.
+    info_list: Represents facilities used by spaceports for launches.
+    tab_groups:
+    - direction: toone
+      fks:
+      - spaceport_id
+      name: spaceport
+      resource: Spaceport
+    type: LaunchFacility
+    user_key: name
+  Mission:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: spaceport_id
+    - name: launch_date
+      required: true
+      type: DATE
+    - name: return_date
+      type: DATE
+    - name: id
+    description: Represents a space mission including its details.
+    info_list: Represents a space mission including its details.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - mission_id
+      name: AstronautMissionList
+      resource: AstronautMission
+    - direction: tomany
+      fks:
+      - mission_id
+      name: CargoList
+      resource: Cargo
+    - direction: tomany
+      fks:
+      - mission_id
+      name: MissionOutcomeList
+      resource: MissionOutcome
+    - direction: tomany
+      fks:
+      - mission_id
+      name: MissionSpaceAgencyList
+      resource: MissionSpaceAgency
+    - direction: tomany
+      fks:
+      - current_mission_id
+      name: SpacecraftList
+      resource: Spacecraft
+    - direction: toone
+      fks:
+      - spaceport_id
+      name: spaceport
+      resource: Spaceport
+    type: Mission
+    user_key: name
+  MissionOutcome:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: mission_id
+      required: true
+    - name: outcome
+      required: true
+    - name: details
+    description: Represents the outcomes of a mission.
+    info_list: Represents the outcomes of a mission.
+    tab_groups:
+    - direction: toone
+      fks:
+      - mission_id
+      name: mission
+      resource: Mission
+    type: MissionOutcome
+    user_key: id
+  MissionSpaceAgency:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: mission_id
+      required: true
+    - name: space_agency_id
+      required: true
+    description: Junction table linking missions to space agencies.
+    info_list: Junction table linking missions to space agencies.
+    tab_groups:
+    - direction: toone
+      fks:
+      - mission_id
+      name: mission
+      resource: Mission
+    - direction: toone
+      fks:
+      - space_agency_id
+      name: space_agency
+      resource: SpaceAgency
+    type: MissionSpaceAgency
+    user_key: id
+  SpaceAgency:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: country
+      required: true
+    - name: id
+    description: Represents a space agency overseeing missions.
+    info_list: Represents a space agency overseeing missions.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - space_agency_id
+      name: MissionSpaceAgencyList
+      resource: MissionSpaceAgency
+    type: SpaceAgency
+    user_key: name
+  Spacecraft:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: current_mission_id
+    - name: model
+      required: true
+    - name: crew_capacity
+      required: true
+    description: Represents a spacecraft with its specifications.
+    info_list: Represents a spacecraft with its specifications.
+    tab_groups:
+    - direction: toone
+      fks:
+      - current_mission_id
+      name: current_mission
+      resource: Mission
+    type: Spacecraft
+    user_key: id
+  Spaceport:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: location
+      required: true
+    - name: id
+    description: Represents a spaceport with basic information.
+    info_list: Represents a spaceport with basic information.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - spaceport_id
+      name: LaunchFacilityList
+      resource: LaunchFacility
+    - direction: tomany
+      fks:
+      - spaceport_id
+      name: MissionList
+      resource: Mission
+    type: Spaceport
+    user_key: name
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

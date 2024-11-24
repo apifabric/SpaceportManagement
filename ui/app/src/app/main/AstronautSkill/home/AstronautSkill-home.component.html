@@ -1,0 +1,44 @@
+<o-form-layout-manager attr="AstronautSkill" mode="tab" title="ASTRONAUTSKILL">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="AstronautSkillTable" 
+            service="AstronautSkill" 
+            entity="AstronautSkill" 
+            title="ASTRONAUTSKILL"
+            keys="id"
+            columns="skill_name;astronaut_id;level;id" 
+            header-actions="R;D"
+            visible-columns="skill_name;astronaut_id;level;id"  
+            sort-columns="skill_name" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #skill_name attr="skill_name" title=" skill_name*" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column attr="astronaut_id" title="astronaut_id">
+    <o-table-cell-renderer-service attr="astronaut_id" 
+        service="Astronaut" entity="AstronautType" columns="id;first_name"
+        parent-keys="id:astronaut_id"
+        value-column="first_name" keys="astronaut_id"
+        visible-columns="first_name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #level attr="level" title="level" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+            
+            <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

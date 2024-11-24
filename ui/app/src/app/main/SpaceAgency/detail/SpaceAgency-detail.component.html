@@ -1,0 +1,85 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="SpaceAgency_form_edit" 
+        service="SpaceAgency" 
+        entity="SpaceAgency" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #country attr="country" label="country" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="MISSIONSPACEAGENCY-space_agency_id">
+    <div layout-padding>
+      <o-table 
+        attr="MissionSpaceAgencyTable" 
+        service="MissionSpaceAgency" 
+        entity="MissionSpaceAgency" 
+        keys="id"
+        parent-keys="space_agency_id:id"
+        columns="id;mission_id;space_agency_id"  
+        horizontal-scroll="yes"
+        detail-form-route="MissionSpaceAgency" 
+        edit-form-route="MissionSpaceAgency"
+        visible-columns="id;mission_id;space_agency_id"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="mission_id" title="mission_id">
+    <o-table-cell-renderer-service attr="mission_id" 
+        service="Mission" entity="MissionType" columns="id;name"
+        parent-keys="id:mission_id"
+        value-column="name" keys="mission_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="space_agency_id" title="space_agency_id">
+    <o-table-cell-renderer-service attr="space_agency_id" 
+        service="SpaceAgency" entity="SpaceAgencyType" columns="id;name"
+        parent-keys="id:space_agency_id"
+        value-column="name" keys="space_agency_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>
